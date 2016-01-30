@@ -4,6 +4,9 @@
 
 import pygame
 
+pygame.mixer.init(44100, -16, 2, 2048)
+pop = pygame.mixer.Sound("CORK.WAV")
+
 class my_sprite: # {{{
   def __init__(self, x, y, velocity_x, velocity_y, size_multiplier):
     self.my_x = x
@@ -41,7 +44,7 @@ class my_sprite: # {{{
 class bubble(my_sprite):
   def __init__(self, x, y, radius, velocity_x, velocity_y, color, screen):
     my_sprite.__init__(self, x, y, velocity_x, velocity_y, 1)
-    self.radius=radius
+    self.radius = radius
     self.screen = screen
     self.color = color
     self.active = True
@@ -56,12 +59,21 @@ class bubble(my_sprite):
       pass
 
   def pop(self):
-    self.active=False
+    if self.active:
+      pop.play()
+      self.active=False
 
   def move(self, MAXX, MAXY):
-    if (self.my_x + self.my_velocity_x - self.radius) < 0 or (self.my_x + self.my_velocity_x + self.radius) > MAXX:
-      self.my_velocity_x = -1*self.my_velocity_x
-    self.my_x = self.my_x + self.my_velocity_x
-    if (self.my_y + self.my_velocity_y - self.radius) < 0 or (self.my_y + self.my_velocity_y + self.radius) > MAXY:
-      self.my_velocity_y = -1*self.my_velocity_y
-    self.my_y = self.my_y + self.my_velocity_y
+    new_x = self.my_x + self.my_velocity_x
+    new_y = self.my_y + self.my_velocity_y
+    if (new_x - self.radius) < 0 or (new_x + self.radius) > MAXX:
+      self.my_velocity_x *= -1
+    self.my_x += self.my_velocity_x
+    if (new_y - self.radius) < 0 or (new_y + self.radius) > MAXY:
+      self.my_velocity_y *= -1
+    self.my_y += self.my_velocity_y
+
+  def contains(self, pos):
+    return (self.my_x - self.radius <= pos[0] <= self.my_x + self.radius and
+            self.my_y - self.radius <= pos[1] <= self.my_y + self.radius)
+

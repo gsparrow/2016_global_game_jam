@@ -11,6 +11,8 @@ from math import pi
 import random
 
 pygame.init()
+BUBBLES = 5
+RADIUS = 50
 WIDTH = 700										# arbitrary values for now
 HEIGHT = 700
 size = WIDTH, HEIGHT
@@ -31,9 +33,10 @@ pygame.display.set_caption("Ritual")
 
 done = False
 clock = pygame.time.Clock()
+rndi = random.SystemRandom().randint
 
-my_bubbles = (sprites.bubble(50, 50, 50, int((random.random()*10)%10), int((random.random()*10)%10), WHITE, screen),
-            sprites.bubble(50, 50, 50, int((random.random()*10)%10), int((random.random()*10)%10), WHITE, screen))
+my_bubbles = [sprites.bubble(rndi(RADIUS,WIDTH-RADIUS),rndi(RADIUS,HEIGHT-RADIUS), RADIUS, rndi(1,10), rndi(1,10), WHITE, screen)
+              for _ in range(BUBBLES)]
 while not done:
 
   #limit the clock to ten loops per second
@@ -44,12 +47,11 @@ while not done:
       done =True
     if event.type == pygame.MOUSEBUTTONUP:                                              #pops the bubble if you click within the square
       pos = pygame.mouse.get_pos()                                                      #created by using its radius as lengths
-      for bubble in my_bubbles:
-        if bubble.get_x()-bubble.get_radius() <= pos[0]:
-          if pos[0] <= bubble.get_x()+bubble.get_radius():
-            if bubble.get_y()-bubble.get_radius() <= pos[1]:
-              if pos[1] <= bubble.get_y()+bubble.get_radius():
-                bubble.pop()
+      [bubble.pop() for bubble in my_bubbles if bubble.contains(pos)]
+    if event.type == pygame.KEYDOWN:
+      key = pygame.key.get_pressed()
+      if key[pygame.K_q] or key[pygame.K_x]:
+        done = True
 
   screen.fill(WHITE)
   ### draw bathroom wall {{{
