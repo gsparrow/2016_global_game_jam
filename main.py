@@ -11,6 +11,11 @@ from math import pi
 import random
 
 pygame.init()
+pygame.mixer.music.load("assets/Dark Repose.mid")
+pygame.mixer.music.play(loops=-1)
+pygame.mixer.music.set_volume(0.3)
+
+
 BUBBLES = 5
 RADIUS = 50
 WIDTH = 700										# arbitrary values for now
