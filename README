@@ -1,14 +1,14 @@
 Done:
 	add bathroom wall tiles
 	add basic bubbles
+	add more bubbles
+	add bubble popping sound to bubbles
+	make bubble start x and y random
 
 Todo:
 	add bathtub with leg
 	add strawberry jam
 	add strawberry jam application to leg
-	add more bubbles
 	add transparency to bubbles
-	add bubble popping sound to bubbles
 	add ketchup fart sound to strawberry jam application process
-	make bubble start x and y random
 	make a few bubbles fixed over key items (like the leg), and non transparent (hide the key objects with bubbles)
