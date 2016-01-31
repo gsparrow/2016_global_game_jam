@@ -5,7 +5,7 @@
 import pygame
 
 pygame.mixer.init(44100, -16, 2, 2048)
-pop = pygame.mixer.Sound("CORK.WAV")
+pop = pygame.mixer.Sound("assets/CORK.WAV")
 
 class my_sprite: # {{{
   def __init__(self, x, y, velocity_x, velocity_y, size_multiplier):
